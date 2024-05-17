@@ -13,6 +13,7 @@ struct BookListView: View {
     @Environment(\.modelContext) private var context
     @Query(sort: \Book.title) private var books: [Book]
     
+    @State private var createNewBook = false
     var body: some View {
         NavigationStack{
             Group{
@@ -40,6 +41,17 @@ struct BookListView: View {
             }
             .listStyle(.plain)
             .navigationTitle("My books")
+            .toolbar {
+                Button {
+                    createNewBook = true
+                } label: {
+                    Image(systemName: "plus.circle.fill")
+                        .imageScale(.large)
+                }
+            }
+            .sheet(isPresented: $createNewBook, content: {
+                NewBookView()
+            })
         }
     }
 }
